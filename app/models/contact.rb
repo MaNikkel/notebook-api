@@ -7,6 +7,10 @@ class Contact < ApplicationRecord
 
   # redefines as_json method to include valid method
   def as_json(options = {})
-    super(options.merge(methods: [:valid], root: true))
+    super(options.merge(
+      root: true,
+      methods: [:valid],
+      include: { kind: { only: %i[description id] } }
+    ))
   end
 end
