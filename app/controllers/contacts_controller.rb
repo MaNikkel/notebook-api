@@ -10,7 +10,7 @@ class ContactsController < ApplicationController
 
   # GET /contacts/1
   def show
-    render json: @contact, root: true, except: [:birthdate]
+    render json: @contact, root: true, except: [:kind_id]
   end
 
   # POST /contacts
