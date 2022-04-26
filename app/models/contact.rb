@@ -1,5 +1,6 @@
 class Contact < ApplicationRecord
   belongs_to :kind
+  has_many :phones
 
   def valid
     true
@@ -14,7 +15,7 @@ class Contact < ApplicationRecord
     super(options.merge(
       root: true,
       methods: [:birthdate_br],
-      include: { kind: { only: %i[description id] } }
+      include: { kind: { only: %i[description id] }, phones: { except: [:contact_id] } }
     ))
   end
 end

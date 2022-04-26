@@ -20,6 +20,16 @@ namespace :dev do
       )
     end
 
+    puts 'Generating phones...'
+
+    Contact.all.each do |contact|
+      rand(1..5).times do |_i|
+        phone = Phone.create!(number: Faker::PhoneNumber.phone_number)
+        contact.phones << phone
+        contact.save!
+      end
+    end
+
     puts 'Done!'
   end
 end
