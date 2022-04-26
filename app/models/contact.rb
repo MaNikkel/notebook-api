@@ -2,6 +2,8 @@ class Contact < ApplicationRecord
   belongs_to :kind
   has_many :phones
 
+  accepts_nested_attributes_for :phones, allow_destroy: true
+
   def valid
     true
   end
@@ -9,7 +11,7 @@ class Contact < ApplicationRecord
   # redefines as_json method to include valid method
   def as_json(options = {})
     h = super(options.merge(
-      include: { kind: { only: %i[description id] }, phones: { except: [:contact_id] } }
+      include: [:phones, { kind: { only: %i[description id] } }]
     ))
 
     h[:birthdate] = (I18n.l(self.birthdate) unless self.birthdate.blank?)
