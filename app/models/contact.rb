@@ -6,16 +6,14 @@ class Contact < ApplicationRecord
     true
   end
 
-  def birthdate_br
-    I18n.localize(birthdate) unless birthdate.blank?
-  end
-
   # redefines as_json method to include valid method
   def as_json(options = {})
-    super(options.merge(
-      root: true,
-      methods: [:birthdate_br],
+    h = super(options.merge(
       include: { kind: { only: %i[description id] }, phones: { except: [:contact_id] } }
     ))
+
+    h[:birthdate] = (I18n.l(self.birthdate) unless self.birthdate.blank?)
+
+    h
   end
 end
