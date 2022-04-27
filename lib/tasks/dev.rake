@@ -1,6 +1,9 @@
 namespace :dev do
   desc 'Configure the application for development'
   task setup: :environment do
+    puts 'Cleaning up database...'
+    %x(rails db:drop db:create db:migrate)
+
     puts 'Generating Kinds...'
 
     contacts_kinds = %w[Amigos Familiares Colegas Trabalho]
@@ -28,6 +31,16 @@ namespace :dev do
         contact.phones << phone
         contact.save!
       end
+    end
+    
+    puts 'Generating Addresses...'
+
+    Contact.all.each do |contact|
+      address = Address.create!(
+        street: Faker::Address.street_address, 
+        city: Faker::Address.city,
+        contact: contact
+      )
     end
 
     puts 'Done!'
