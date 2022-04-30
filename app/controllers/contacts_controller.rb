@@ -5,12 +5,12 @@ class ContactsController < ApplicationController
   def index
     @contacts = Contact.all
 
-    render json: @contacts, only: %i[name email]
+    render json: @contacts, include: "**"
   end
 
   # GET /contacts/1
   def show
-    render json: @contact, except: [:kind_id]
+    render json: @contact, include: [:kind]
   end
 
   # POST /contacts
