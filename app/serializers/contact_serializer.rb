@@ -1,6 +1,10 @@
 class ContactSerializer < ActiveModel::Serializer
   attributes :id, :name, :email, :birthdate
 
+  meta do
+    { valid: true }
+  end
+
   belongs_to :kind
   has_many :phones
   has_one :address
